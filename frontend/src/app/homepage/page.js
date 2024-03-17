@@ -1,10 +1,9 @@
 import * as React from 'react';
-import data from "../data.json"
-import topArticle from "../topArticle.json"
-import bottomArticle from "../bottomArticle.json"
+import data from "/public/assets/data.json";
+import topArticle from "/public/assets/topArticle.json";
+import bottomArticle from "/public/assets/bottomArticle.json";
 import CardComp from '../_components/CardComp';
 import AppBar from '../_components/AppBar';
-import HeroTopCard from '../_components/HeroTopCard';
 import {
   Box, Container, Grid, 
   Paper, Card, CardActionArea, 
@@ -39,7 +38,7 @@ export default function Homepage() {
         <Box sx={{ flexGrow: 1, marginY: 2, marginX: 'auto' }} >
           <Grid container spacing={2}>
             {bottomArticle.map((article) => (
-              <Grid item xs={4} key={article.id}>
+              <Grid item xs={4} key={article.id} onclick=''>
                 <CardComp title={article.title} content={article.content} imageUrl={article.imageUrl} />
               </Grid>
             ))
