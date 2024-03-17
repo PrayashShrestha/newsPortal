@@ -1,0 +1,55 @@
+[
+    {
+      "id": 1,
+      "title": "Breaking News: Fire Engulfs City Block",
+      "category": "Local News",
+      "author": "John Doe",
+      "publishedAt": "2024-03-10T08:00:00Z",
+      "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et aliquam ex, vitae tincidunt nunc. Nulla facilisi." ,"imageUrl": "https://via.placeholder.com/300"
+ },
+    {
+      "id": 2,
+      "title": "Technology Trends: AI Advancements",
+      "category": "Technology",
+      "author": "Jane Smith",
+      "publishedAt": "2024-03-09T10:30:00Z",
+      "content": "Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed lacinia, mi sed aliquam semper, nibh ligula hendrerit mauris, et pharetra mauris libero sed arcu."
+       ,"imageUrl": "https://via.placeholder.com/300"
+ },
+    {
+      "id": 3,
+      "title": "World Politics: Summit Diplomacy",
+      "category": "Politics",
+      "author": "Michael Johnson",
+      "publishedAt": "2024-03-08T12:45:00Z",
+      "content": "Fusce scelerisque consectetur lacus a fermentum. Donec nec dolor vitae magna ullamcorper dignissim sed vitae ante."
+       ,"imageUrl": "https://via.placeholder.com/300"
+ },
+    {
+      "id": 4,
+      "title": "Health & Wellness: New Exercise Trends",
+      "category": "Health",
+      "author": "Emily Brown",
+      "publishedAt": "2024-03-07T14:15:00Z",
+      "content": "Nam euismod lectus vel imperdiet mattis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas."
+       ,"imageUrl": "https://via.placeholder.com/300"
+ },
+    {
+      "id": 5,
+      "title": "Entertainment Buzz: Oscars Recap",
+      "category": "Entertainment",
+      "author": "David Wilson",
+      "publishedAt": "2024-03-06T16:00:00Z",
+      "content": "Aenean feugiat leo quis velit pretium, nec efficitur odio molestie. Maecenas luctus sapien non orci fermentum, sed venenatis arcu tristique."
+       ,"imageUrl": "https://via.placeholder.com/300"
+ },
+    {
+      "id": 6,
+      "title": "Sports Update: Championship Victory",
+      "category": "Sports",
+      "author": "Sarah Adams",
+      "publishedAt": "2024-03-05T18:20:00Z",
+      "content": "Praesent ac nunc id eros cursus viverra. Nulla fermentum lacus id purus interdum, at posuere sem tempor."
+    }
+  ]
+  
