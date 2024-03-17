@@ -3,7 +3,9 @@ import pool from './config/db';
 
 const app = express();
 
-const port = 4000;
+import { config } from "./config/config";
+
+const port = config.port;
 
 app.use(express.json());
 
