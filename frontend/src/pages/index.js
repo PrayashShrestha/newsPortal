@@ -1,9 +1,9 @@
 import * as React from 'react';
-import data from "/public/assets/data.json";
-import topArticle from "/public/assets/topArticle.json";
-import bottomArticle from "/public/assets/bottomArticle.json";
-import CardComp from '../_components/CardComp';
-import AppBar from '../_components/AppBar';
+import data from "../public/assets/data.json";
+import topArticle from "../public/assets/topArticle.json";
+import bottomArticle from "../public/assets/bottomArticle.json";
+import CardComp from '../components/CardComp';
+import ResponsiveAppBar from '../components/AppBar';
 import {
   Box, Container, Grid, 
   Paper, Card, CardActionArea, 
@@ -16,7 +16,7 @@ import {
 export default function Homepage() {
   return (
     <div>
-      <AppBar />
+      <ResponsiveAppBar />
       <Container maxWidth='md' sx={{ marginY: 2, marginX: 'auto' }}>
         <Typography variant="h3" component="h2" sx={{ color: 'red' }}>NEWS</Typography>
         <Card sx={{ maxWidth: 900, display: 'flex', flexDirection: 'row' }} >
