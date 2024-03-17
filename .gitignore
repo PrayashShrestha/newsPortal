@@ -37,3 +37,6 @@
 */*.tsbuildinfo
 */next-env.d.ts
 frontend/package-lock.json
+
+# formatting
+.prettierrc
