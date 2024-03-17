@@ -5,6 +5,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import Image from 'next/image'
 
 export default function CardComp({title, content, imageUrl}) {
   return (
@@ -13,7 +14,7 @@ export default function CardComp({title, content, imageUrl}) {
         component="img"
         alt="news article"
         height="50"
-        image="https://getthetiger.com/wp-content/uploads/2020/06/accident-4860938_1920.jpg"
+        image={imageUrl}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">

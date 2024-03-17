@@ -1,0 +1,29 @@
+[
+  {
+    "id": 2,
+    "title": "Technology Trends: AI Advancements",
+    "category": "Technology",
+    "author": "Jane Smith",
+    "publishedAt": "2024-03-09T10:30:00Z",
+    "content": "Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed lacinia, mi sed aliquam semper, nibh ligula hendrerit mauris, et pharetra mauris libero sed arcu.",
+    "imageUrl": "https://getthetiger.com/wp-content/uploads/2020/06/accident-4860938_1920.jpg"
+  },
+  {
+    "id": 3,
+    "title": "World Politics: Summit Diplomacy",
+    "category": "Politics",
+    "author": "Michael Johnson",
+    "publishedAt": "2024-03-08T12:45:00Z",
+    "content": "Fusce scelerisque consectetur lacus a fermentum. Donec nec dolor vitae magna ullamcorper dignissim sed vitae ante.",
+    "imageUrl": "https://getthetiger.com/wp-content/uploads/2020/06/accident-4860938_1920.jpg"
+  },
+  {
+    "id": 4,
+    "title": "Health & Wellness: New Exercise Trends",
+    "category": "Health",
+    "author": "Emily Brown",
+    "publishedAt": "2024-03-07T14:15:00Z",
+    "content": "Nam euismod lectus vel imperdiet mattis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
+    "imageUrl": "https://getthetiger.com/wp-content/uploads/2020/06/accident-4860938_1920.jpg"
+  }
+]
