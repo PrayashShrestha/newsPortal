@@ -37,3 +37,6 @@
 */*.tsbuildinfo
 */next-env.d.ts
 frontend/package-lock.json
+
+# migrations
+/backend/prisma/migrations
