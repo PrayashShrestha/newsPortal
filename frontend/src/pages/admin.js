@@ -6,6 +6,8 @@ import Chip from "@mui/material/Chip";
 import DynamicTabs from "../components/Tab";
 import DynamicVictoryChart from "../components/VictoryChart";
 import DynamicTable from "../components/Table";
+import ResponsiveAppBar from "../components/AppBar"
+import PopoverForm from "../components/addEditor";
 
 function admin() {
   const dashboardData = [
@@ -62,16 +64,19 @@ function admin() {
     {
       authorId: "1",
       author: "John Doe",
+      email: "johndoe@miu.edu",
       noOfArticle: 10,
     },
     {
         authorId: "2",
         author: "John Wick",
+        email: "johmWick@miu.edu",
         noOfArticle: 5,
       },
       {
         authorId: "3",
         author: "Will Smith",
+        email: "willSmith@miu.edu",
         noOfArticle: 2,
       },
   ];
@@ -79,7 +84,8 @@ function admin() {
   const authorcolumns = [
     { id: "authorId", label: "Author Id" },
     { id: "author", label: "Author Name" },
-    { id: "noOfArticle", label: "Number of Article Published" },
+    { id: "email", label: "Email" },
+    { id: "noOfArticle", label: "Articles Published" },
   ];
 
   function handleButtonClick(row) {
@@ -97,10 +103,18 @@ function admin() {
     },
     { label: "AUTHORS", component:(
     <div>
+      <div style={{marginBottom:'10px', marginLeft:'20px'}}>
+        <PopoverForm/>
+      </div>
+      <div>
         <DynamicTable
             rows={authorrows}
             columns={authorcolumns}
+            button={true}
+            buttonText="Details"
+            onClick={handleButtonClick}
           />
+      </div>
 
     </div>)  },
     {
@@ -119,11 +133,14 @@ function admin() {
     },
   ];
   return (
+    <div>
+      <ResponsiveAppBar/>
     <Container sx={{ mt: "30px", padding: "50px" }}>
       <Paper elevation={5}>
         <DynamicTabs tabs={tabsData} />
       </Paper>
     </Container>
+    </div>
   );
 }
 
