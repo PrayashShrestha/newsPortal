@@ -19,7 +19,9 @@
     "react": "^18",
     "react-dom": "^18",
     "react-draft-wysiwyg": "^1.15.0",
-    "react-quill": "^2.0.0"
+    "react-quill": "^2.0.0",
+    "@mui/styles": "^5.15.13",
+    "victory": "^36.9.2"
   },
   "devDependencies": {
     "@types/node": "^20",
