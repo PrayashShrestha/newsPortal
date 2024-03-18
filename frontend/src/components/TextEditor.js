@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { EditorState, convertToRaw, ContentState } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { Button, Grid, Modal, Box } from "@mui/material";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
 import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
+import { formats, modules } from "../utils/textEditor";
 const ReactQuill = dynamic(
   () => import("react-draft-wysiwyg").then((mod) => mod.Editor),
   {
@@ -13,30 +15,10 @@ const ReactQuill = dynamic(
 );
 export default function TextEditor() {
   const [editorValue, setEditorValue] = useState("");
+  const [postImage, setPostImage] = useState(null);
 
-  const [loading, setLoading] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
-
-  const handleImageUpload = (file) => {
-    console.log("Uploading image:", file);
-    const formData = new FormData();
-    formData.append("image", file);
-
-    return fetch("/upload-image", {
-      method: "POST",
-      body: formData,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Image uploaded successfully:", data);
-        return { data: { link: data.imageUrl } };
-      })
-      .catch((error) => {
-        console.error("Error uploading image:", error);
-        throw new Error("Failed to upload image");
-      });
-  };
 
   const handleCloseModal = () => {
     setOpenModal(false);
@@ -53,47 +35,6 @@ export default function TextEditor() {
     setEditorState(state);
   };
 
-  const modules = {
-    toolbar: [
-      [{ header: "1" }, { header: "2" }, { header: "3" }, { font: [] }],
-      [{ size: [] }],
-      ["bold", "italic", "underline", "strike", "blockquote"],
-      [{ list: "ordered" }, { list: "bullet" }],
-      ["link", "image", "video"],
-      ["clean"],
-      ["left", "center", "right", "justify"],
-    ],
-    clipboard: {
-      matchVisual: false,
-    },
-    handlers: {
-      image: handleImageUpload,
-    },
-    // image: {
-    //   uploadCallback: handleImageUpload,
-    //   previewImage: true,
-    //   alt: { present: true, mandatory: false },
-    //   inputAccept: "image/gif,image/jpeg,image/jpg,image/png,image/svg",
-    // }
-    embedded: { defaultSize: { height: "auto", width: "100%" } },
-  };
-  const formats = [
-    "header",
-    "font",
-    "size",
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    "blockquote",
-    "list",
-    "bullet",
-    "indent",
-    "link",
-    "image",
-    "video",
-  ];
-
   const saveContent = () => {
     const contentState = editorState.getCurrentContent();
     const content = JSON.stringify(convertToRaw(contentState));
@@ -105,17 +46,42 @@ export default function TextEditor() {
 
   const handleChange = (newValue) => {
     setEditorValue(newValue);
-    // if (editorValue) {
-    //   onChange(newValue);
-    // }
+  };
+
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    setPostImage(file);
+    console.log(file);
   };
 
   return (
     <div>
+      {" "}
+      <label
+        htmlFor="post-image"
+        style={{ position: "absolute", top: 80, right: 35 }}
+      >
+        <Button
+          variant="outlined"
+          component="span"
+          startIcon={<CloudUploadIcon />}
+          onChange={handleImageChange}
+        >
+          Upload Image
+        </Button>
+      </label>
+      <input
+        accept="image/*"
+        id="post-image"
+        type="file"
+        onChange={handleImageChange}
+        style={{ display: "none" }}
+      />
       <ReactQuill
         editorState={editorState}
         onEditorStateChange={handleEditorStateChange}
         value={editorValue}
+        placeholder="Start writing..."
         onChange={handleChange}
         theme="snow"
         formats={formats}
