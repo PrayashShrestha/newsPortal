@@ -1,7 +1,7 @@
 import React from 'react';
 import recommended from "/public/assets/recommended.json";
-import CardComp from '../_components/CardComp';
-import AppBar from '../_components/AppBar';
+import CardComp from '../../components/CardComp';
+import AppBar from '../../components/AppBar';
 
 import { Container, Typography, Box, CardMedia, Divider, Grid, Paper } from '@mui/material';
 
