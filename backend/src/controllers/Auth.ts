@@ -14,7 +14,7 @@ const authenticateUser = async (req: Request, res: Response) => {
       const responseObj = {
         username: user.username,
         name: user.name,
-        role: user.password,
+        role: user.role,
       };
       res.status(200).json(responseObj);
     } else {
