@@ -3,7 +3,7 @@ import { EditorState, convertToRaw, ContentState } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { Button, Grid, Modal, Box } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-
+import axios from "axios";
 import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
 import { formats, modules } from "../utils/textEditor";
@@ -23,12 +23,33 @@ export default function TextEditor() {
   const handleCloseModal = () => {
     setOpenModal(false);
   };
-  const handleSendForApproval = () => {
-    setOpenModal(true);
-  };
 
-  const handleConfirmSend = () => {
+  const handleConfirmSend = async () => {
     setOpenModal(false);
+    const contentState = editorState.getCurrentContent();
+    const content = JSON.stringify(convertToRaw(contentState));
+
+    const formData = new FormData();
+    console.log(postImage, content);
+    formData.append("image", postImage);
+    formData.append("content", content);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/api/editor",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      console.log("Response from backend:", response.data);
+      setOpenModal(false);
+    } catch (error) {
+      console.error("Error saving content:", error);
+    }
   };
 
   const handleEditorStateChange = (state) => {
@@ -36,12 +57,13 @@ export default function TextEditor() {
   };
 
   const saveContent = () => {
-    const contentState = editorState.getCurrentContent();
-    const content = JSON.stringify(convertToRaw(contentState));
-    console.log("Saving content:", content);
-    if (content.text) {
-      setEditorValue(content.text);
-    }
+    setOpenModal(true);
+    // const contentState = editorState.getCurrentContent();
+    // const content = JSON.stringify(convertToRaw(contentState));
+    // console.log("Saving content:", content);
+    // if (content.text) {
+    //   setEditorValue(content.text);
+    // }
   };
 
   const handleChange = (newValue) => {
@@ -51,32 +73,33 @@ export default function TextEditor() {
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     setPostImage(file);
-    console.log(file);
+    console.log(postImage, "imagefile");
   };
 
   return (
     <div>
-      {" "}
-      <label
-        htmlFor="post-image"
-        style={{ position: "absolute", top: 80, right: 35 }}
-      >
-        <Button
-          variant="outlined"
-          component="span"
-          startIcon={<CloudUploadIcon />}
-          onChange={handleImageChange}
+      <Box>
+        <label
+          htmlFor="post-image"
+          style={{ position: "relative", bottom: 20, left: "80%" }}
         >
-          Upload Image
-        </Button>
-      </label>
-      <input
-        accept="image/*"
-        id="post-image"
-        type="file"
-        onChange={handleImageChange}
-        style={{ display: "none" }}
-      />
+          <Button
+            variant="outlined"
+            component="span"
+            startIcon={<CloudUploadIcon />}
+            onChange={handleImageChange}
+          >
+            Upload Image
+          </Button>
+        </label>
+        <input
+          accept="image/*"
+          id="post-image"
+          type="file"
+          onChange={handleImageChange}
+          style={{ display: "none" }}
+        />
+      </Box>
       <ReactQuill
         editorState={editorState}
         onEditorStateChange={handleEditorStateChange}
@@ -93,7 +116,6 @@ export default function TextEditor() {
           color="primary"
           onClick={() => {
             saveContent();
-            handleSendForApproval();
           }}
         >
           Save Content
