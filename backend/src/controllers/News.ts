@@ -8,12 +8,19 @@ export const getAllNews = async (
   next: NextFunction
 ) => {
   try {
-    const news = await prisma.news.findMany();
+    const news = await prisma.news.findMany({
+      take: 10,
+      include: {
+        user: true,
+      },
+
+    });
     res.status(200).json(news);
   } catch (error) {
     next(error);
   }
 };
+
 
 export const getSingleNews = async (
   req: Request,
