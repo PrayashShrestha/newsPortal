@@ -3,6 +3,7 @@ import { EditorState, convertToRaw, ContentState } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { Button, Grid, Modal, Box } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import TextField from '@material-ui/core/TextField';
 
 import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
@@ -19,6 +20,7 @@ export default function TextEditor() {
 
   const [openModal, setOpenModal] = useState(false);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const [title, setTitle] = useState('');
 
   const handleCloseModal = () => {
     setOpenModal(false);
@@ -34,6 +36,11 @@ export default function TextEditor() {
   const handleEditorStateChange = (state) => {
     setEditorState(state);
   };
+  const handleTitle = (e) => {
+    //console.log(value)
+    setTitle(e.target.value)
+  }
+
 
   const saveContent = () => {
     const contentState = editorState.getCurrentContent();
@@ -59,7 +66,7 @@ export default function TextEditor() {
       {" "}
       <label
         htmlFor="post-image"
-        style={{ position: "absolute", top: 80, right: 35 }}
+        style={{ position: "absolute", top: -30, right: -5 }}
       >
         <Button
           variant="outlined"
@@ -67,7 +74,7 @@ export default function TextEditor() {
           startIcon={<CloudUploadIcon />}
           onChange={handleImageChange}
         >
-          Upload Image
+          Upload Cover Image
         </Button>
       </label>
       <input
@@ -77,11 +84,16 @@ export default function TextEditor() {
         onChange={handleImageChange}
         style={{ display: "none" }}
       />
+
+      <TextField id="title" label="Title" style={{ margin: 8 }}
+          placeholder="Write the title here..." helperText="" fullWidth
+          margin="normal" InputLabelProps={{ shrink: true, }} 
+          onChange={handleTitle}/>
       <ReactQuill
         editorState={editorState}
         onEditorStateChange={handleEditorStateChange}
         value={editorValue}
-        placeholder="Start writing..."
+        placeholder="Write your article here..."
         onChange={handleChange}
         theme="snow"
         formats={formats}
