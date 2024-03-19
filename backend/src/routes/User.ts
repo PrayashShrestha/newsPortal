@@ -13,7 +13,7 @@ import { authenticate } from "../utils/auth/authenticate";
 const userRouter = express.Router();
 
 userRouter.get("/", authenticate, getUsers);
-userRouter.get("/role", getUsersByRole);
+userRouter.post("/role", getUsersByRole);
 userRouter.get("/:id", getUser);
 userRouter.post("/", createUser);
 userRouter.put("/:id", updateUser);
