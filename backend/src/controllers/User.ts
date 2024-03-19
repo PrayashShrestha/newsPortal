@@ -15,11 +15,18 @@ export const getUsers = async (
   }
 };
 
-export const getUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const getUsersByRole = async (req: Request, res: Response) => {
+  try {
+    const { role } = req.body;
+    const users = await prisma.user.findMany({ where: { role: role } });
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(400).json({ message: JSON.stringify(error) });
+  }
+};
+
+
+export const getUser = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const user = await prisma.user.findUnique({ where: { id: Number(id) } });
