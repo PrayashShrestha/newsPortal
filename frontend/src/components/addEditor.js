@@ -70,6 +70,8 @@ export default function PopoverForm() {
     } else {
         console.error('Error:', response.statusText);
     }
+
+    handleClose()
 }
 
   const open = Boolean(anchorEl);
