@@ -7,6 +7,7 @@ import morgan from "morgan";
 
 import { routes } from "./routes/";
 import { config } from "./config";
+import { errorHandler } from "./middlewares/ErrorHandlers";
 
 const swaggerOutput = require("./routes/swagger_output.json");
 
@@ -29,5 +30,5 @@ app.use("/api", routes);
 
 /* Swagger docs */
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerOutput));
-
+app.use(errorHandler);
 export default app;
