@@ -15,10 +15,7 @@ editorsRouter.post(
 
       res.send({ success: true });
     } catch (error) {
-      console.error("Error processing image and text upload", error);
-      res
-        .status(500)
-        .send({ error: "Failed to process image and text upload" });
+      next(error);
     }
   }
 );
