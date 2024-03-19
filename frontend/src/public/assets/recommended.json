@@ -6,7 +6,7 @@
     "author": "John Doe",
     "publishedAt": "2024-03-10T08:00:00Z",
     "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et aliquam ex, vitae tincidunt nunc. Nulla facilisi.",
-    "imageUrl": "https://getthetiger.com/wp-content/uploads/2020/06/accident-4860938_1920.jpg"
+    "imageUrl": "assets/accident-4860938_1920.jpg"
   },
   {
     "id": 2,
@@ -33,24 +33,6 @@
     "author": "Emily Brown",
     "publishedAt": "2024-03-07T14:15:00Z",
     "content": "Nam euismod lectus vel imperdiet mattis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
-    "imageUrl": "https://getthetiger.com/wp-content/uploads/2020/06/accident-4860938_1920.jpg"
-  },
-  {
-    "id": 5,
-    "title": "Entertainment Buzz: Oscars Recap",
-    "category": "Entertainment",
-    "author": "David Wilson",
-    "publishedAt": "2024-03-06T16:00:00Z",
-    "content": "Aenean feugiat leo quis velit pretium, nec efficitur odio molestie. Maecenas luctus sapien non orci fermentum, sed venenatis arcu tristique.",
-    "imageUrl": "https://getthetiger.com/wp-content/uploads/2020/06/accident-4860938_1920.jpg"
-  },
-  {
-    "id": 6,
-    "title": "Sports Update: Championship Victory",
-    "category": "Sports",
-    "author": "Sarah Adams",
-    "publishedAt": "2024-03-05T18:20:00Z",
-    "content": "Praesent ac nunc id eros cursus viverra. Nulla fermentum lacus id purus interdum, at posuere sem tempor.",
     "imageUrl": "https://getthetiger.com/wp-content/uploads/2020/06/accident-4860938_1920.jpg"
   }
 ]

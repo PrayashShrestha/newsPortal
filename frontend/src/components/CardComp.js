@@ -8,23 +8,14 @@ import Typography from '@mui/material/Typography';
 
 export default function CardComp({title, content, imageUrl}) {
   return (
-    <Paper elevation={0} sx={{padding: 0, transition: 'box-shadow 0.3s', ':hover': {boxShadow: '0px 10px 15px rgba(0,0,0,0.2)',},}}>
-    <Card sx={{ height: 300 }}>
-      <CardMedia
-        component="img"
-        alt="news article"
-        height="50"
-        image="https://getthetiger.com/wp-content/uploads/2020/06/accident-4860938_1920.jpg"
-      />
+    <Paper elevation={0} sx={{padding: 0, transition: 'box-shadow 0.3s', 
+    ':hover': {boxShadow: '0px 10px 15px rgba(0,0,0,0.2)'}, borderRadius: '16px'}}>
+    <Card sx={{ height: 300, borderRadius: '16px'  }}>
+      <CardMedia component="img" alt="news article" height="150" image={imageUrl} />
       <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          {title}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-         {content}
-        </Typography>
+        <Typography gutterBottom variant="h6" component="div">{title}</Typography>
+        <Typography variant="body2" color="text.secondary" >{content.slice(0, 100)+'...'}</Typography>
       </CardContent>
- 
     </Card></Paper>
   );
 }
