@@ -3,8 +3,8 @@ import { EditorState, convertToRaw, ContentState } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { Button, Grid, Modal, Box } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import axios from "axios";
 import dynamic from "next/dynamic";
+import editorServices from "../services/editorService";
 import "react-quill/dist/quill.snow.css";
 import { formats, modules } from "../utils/textEditor";
 const ReactQuill = dynamic(
@@ -29,27 +29,8 @@ export default function TextEditor() {
     const contentState = editorState.getCurrentContent();
     const content = JSON.stringify(convertToRaw(contentState));
 
-    const formData = new FormData();
-    console.log(postImage, content);
-    formData.append("image", postImage);
-    formData.append("content", content);
-
-    try {
-      const response = await axios.post(
-        "http://localhost:4000/api/editor",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-
-      console.log("Response from backend:", response.data);
-      setOpenModal(false);
-    } catch (error) {
-      console.error("Error saving content:", error);
-    }
+    editorServices.postArticle(postImage, content);
+    setOpenModal(false);
   };
 
   const handleEditorStateChange = (state) => {
