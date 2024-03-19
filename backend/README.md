@@ -21,3 +21,7 @@ root\* `docker run --name newsportal -e POSTGRES_PASSWORD=postgres -dp 5432:5432
 ### VI. check the swagger docs
 
 - `http://localhost:4000/api-docs`
+
+### VII. Update the swagger docs
+
+- `tsnodesrc/utils/swagger.ts`

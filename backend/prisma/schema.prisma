@@ -14,20 +14,24 @@ model User {
   username String @unique
   password String
   role     String
-  Post     Post[]
+  News     News[]
 }
 
 model Category {
   id   Int    @id @default(autoincrement())
   name String
+  News News[]
 }
 
-model Post {
+model News {
   id            Int      @id @default(autoincrement())
-  heading       String
+  title         String
   content       String
-  publishedDate DateTime @default(now())
+  publishedAt   DateTime @default(now())
   featuredImage String?
-  author        User     @relation(fields: [userId], references: [id])
-  userId        Int
+  status        String
+  author        User     @relation(fields: [authorId], references: [id])
+  authorId      Int
+  category      Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId    Int
 }
