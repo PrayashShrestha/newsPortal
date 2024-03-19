@@ -1,8 +1,12 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { prisma } from "../config";
 import { clearToken, generateToken } from "../utils/auth/jwt";
 
-const authenticateUser = async (req: Request, res: Response) => {
+const authenticateUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const { username, password } = req.body;
     const user = await prisma.user.findUnique({
@@ -21,7 +25,7 @@ const authenticateUser = async (req: Request, res: Response) => {
       res.status(400).json({ message: "No user Found" });
     }
   } catch (error) {
-    res.status(400).json({ message: JSON.stringify(error) });
+    next(error);
   }
 };
 
