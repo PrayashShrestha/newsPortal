@@ -40,3 +40,5 @@ frontend/package-lock.json
 
 # formatting
 .prettierrc
+# migrations
+/backend/prisma/migrations
