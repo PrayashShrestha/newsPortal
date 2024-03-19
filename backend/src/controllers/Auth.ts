@@ -1,3 +1,4 @@
+import bcrypt from "bcrypt";
 import { NextFunction, Request, Response } from "express";
 import { prisma } from "../config";
 import { clearToken, generateToken } from "../utils/auth/jwt";
@@ -8,15 +9,14 @@ const authenticateUser = async (
   next: NextFunction
 ) => {
   try {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
     const user = await prisma.user.findUnique({
-      where: { username: username },
+      where: { email },
     });
-    console.log(user);
-    if (user != null && user.password === password) {
-      generateToken(res, username);
+    if (user != null && (await bcrypt.compare(password, user?.password))) {
+      generateToken(res, email);
       const responseObj = {
-        username: user.username,
+        email: user.email,
         name: user.name,
         role: user.role,
       };
