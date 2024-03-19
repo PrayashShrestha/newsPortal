@@ -32,10 +32,7 @@ function editor() {
     { id: "title", label: "Title" },
     { id: "author", label: "Author" },
     { id: "date", label: "Date Published" },
-    {
-      id: "status",
-      label: "Status",
-    },
+    { id: "status", label: "Status", },
   ];
   function handleButtonClick(row) {
     console.log("Button clicked for row:", row);
@@ -53,9 +50,10 @@ function editor() {
     {
       label: "Write a news",
       component: (
-        <div>
+        <div style={{position: "relative"}}>
+          {/* <ResponsiveAppBar /> */}
+
           <Container maxWidth="md" sx={{ marginY: 2, marginX: "auto" }}>
-            <h1>Write your article here</h1>
             <TextEditor />
           </Container>
         </div>

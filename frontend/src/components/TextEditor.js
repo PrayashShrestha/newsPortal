@@ -3,6 +3,8 @@ import { EditorState, convertToRaw, ContentState } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { Button, Grid, Modal, Box } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import TextField from '@material-ui/core/TextField';
+
 import dynamic from "next/dynamic";
 import editorServices from "../services/editorService";
 import "react-quill/dist/quill.snow.css";
@@ -19,6 +21,7 @@ export default function TextEditor() {
 
   const [openModal, setOpenModal] = useState(false);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const [title, setTitle] = useState('');
 
   const handleCloseModal = () => {
     setOpenModal(false);
@@ -36,6 +39,11 @@ export default function TextEditor() {
   const handleEditorStateChange = (state) => {
     setEditorState(state);
   };
+  const handleTitle = (e) => {
+    //console.log(value)
+    setTitle(e.target.value)
+  }
+
 
   const saveContent = () => {
     setOpenModal(true);
@@ -59,33 +67,37 @@ export default function TextEditor() {
 
   return (
     <div>
-      <Box>
-        <label
-          htmlFor="post-image"
-          style={{ position: "relative", bottom: 20, left: "80%" }}
-        >
-          <Button
-            variant="outlined"
-            component="span"
-            startIcon={<CloudUploadIcon />}
-            onChange={handleImageChange}
-          >
-            Upload Image
-          </Button>
-        </label>
-        <input
-          accept="image/*"
-          id="post-image"
-          type="file"
+      {" "}
+      <label
+        htmlFor="post-image"
+        style={{ position: "absolute", top: -30, right: -5 }}
+      >
+        <Button
+          variant="outlined"
+          component="span"
+          startIcon={<CloudUploadIcon />}
           onChange={handleImageChange}
-          style={{ display: "none" }}
-        />
-      </Box>
+        >
+          Upload Cover Image
+        </Button>
+      </label>
+      <input
+        accept="image/*"
+        id="post-image"
+        type="file"
+        onChange={handleImageChange}
+        style={{ display: "none" }}
+      />
+
+      <TextField id="title" label="Title" style={{ margin: 8 }}
+          placeholder="Write the title here..." helperText="" fullWidth
+          margin="normal" InputLabelProps={{ shrink: true, }} 
+          onChange={handleTitle}/>
       <ReactQuill
         editorState={editorState}
         onEditorStateChange={handleEditorStateChange}
         value={editorValue}
-        placeholder="Start writing..."
+        placeholder="Write your article here..."
         onChange={handleChange}
         theme="snow"
         formats={formats}
