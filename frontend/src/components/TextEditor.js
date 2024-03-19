@@ -6,6 +6,7 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import TextField from '@material-ui/core/TextField';
 
 import dynamic from "next/dynamic";
+import editorServices from "../services/editorService";
 import "react-quill/dist/quill.snow.css";
 import { formats, modules } from "../utils/textEditor";
 const ReactQuill = dynamic(
@@ -25,11 +26,13 @@ export default function TextEditor() {
   const handleCloseModal = () => {
     setOpenModal(false);
   };
-  const handleSendForApproval = () => {
-    setOpenModal(true);
-  };
 
-  const handleConfirmSend = () => {
+  const handleConfirmSend = async () => {
+    setOpenModal(false);
+    const contentState = editorState.getCurrentContent();
+    const content = JSON.stringify(convertToRaw(contentState));
+
+    editorServices.postArticle(postImage, content);
     setOpenModal(false);
   };
 
@@ -43,12 +46,13 @@ export default function TextEditor() {
 
 
   const saveContent = () => {
-    const contentState = editorState.getCurrentContent();
-    const content = JSON.stringify(convertToRaw(contentState));
-    console.log("Saving content:", content);
-    if (content.text) {
-      setEditorValue(content.text);
-    }
+    setOpenModal(true);
+    // const contentState = editorState.getCurrentContent();
+    // const content = JSON.stringify(convertToRaw(contentState));
+    // console.log("Saving content:", content);
+    // if (content.text) {
+    //   setEditorValue(content.text);
+    // }
   };
 
   const handleChange = (newValue) => {
@@ -58,7 +62,7 @@ export default function TextEditor() {
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     setPostImage(file);
-    console.log(file);
+    console.log(postImage, "imagefile");
   };
 
   return (
@@ -105,7 +109,6 @@ export default function TextEditor() {
           color="primary"
           onClick={() => {
             saveContent();
-            handleSendForApproval();
           }}
         >
           Save Content

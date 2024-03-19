@@ -36,9 +36,14 @@
 # typescript
 */*.tsbuildinfo
 */next-env.d.ts
-frontend/package-lock.json
+
+
 
 # formatting
 .prettierrc
 # migrations
 /backend/prisma/migrations
+#package-lock.json
+
+frontend/package-lock.json
+backend/package-lock.json
