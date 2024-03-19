@@ -54,7 +54,6 @@ function editor() {
       label: "Write a news",
       component: (
         <div>
-          {" "}
           <ResponsiveAppBar />
           <Container maxWidth="md" sx={{ marginY: 2, marginX: "auto" }}>
             <h1>Write your article here</h1>
