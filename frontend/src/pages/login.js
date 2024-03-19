@@ -1,8 +1,58 @@
+import React, { useState } from 'react';
+
 import Image from 'next/image';
 import { Box, Container, Paper, TextField, Button, Checkbox, FormControlLabel, Typography, Link } from '@mui/material';
 import loginPic from '../public/assets/loginPic.png'
+import Cookies from 'js-cookie';
+import Router from 'next/router';
 
 export default function LoginPage() {
+  const [loginData, setLoginData] = useState({
+    email: "",
+    password: ""
+  })
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setLoginData(prevData => ({
+      ...prevData,
+      [name]: value
+    }));
+  };
+
+  const handleLogin = async (e) =>{
+    e.preventDefault();
+    try{
+      const response = await fetch('/api/auth/login',{
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(loginData)
+      })
+      if (response.ok) {
+        const {_, name, role} = await response.json()
+        const userData = {
+          "name": name,
+          "role": role
+        }
+        Cookies.set('user' , JSON.stringify(userData), {expires: 7})
+        if (role === 'Admin'){
+          Router.push('/admin')
+
+        }
+        else if (role === 'Editor'){
+          Router.push("/editor")
+        }
+        else {
+          alert('Login Failed')
+        }
+      }else{
+        alert('Wrong username or password')
+      }
+    } catch(error){
+      alert('An error occurred, please try again.');
+    }
+  }
+
   return (
     <Container component="main" sx={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <Box sx={{ position: 'relative', width: '100%', maxWidth: '900px' }}>
@@ -48,6 +98,8 @@ export default function LoginPage() {
                 name="email"
                 autoComplete="email"
                 autoFocus
+                value={loginData.email}
+                onChange={handleChange}
               />
               <TextField
                 margin="normal"
@@ -58,6 +110,8 @@ export default function LoginPage() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                value={loginData.password}
+                onChange={handleChange}
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
@@ -68,6 +122,7 @@ export default function LoginPage() {
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
+                onClick={handleLogin}
               >
                 Login
               </Button>
