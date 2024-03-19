@@ -6,6 +6,7 @@ interface Config {
   databaseUrl?: string;
   jwtSecret: string;
   sessionSecret?: string;
+  saltRounds: number;
 }
 
 dotenvConfig();
@@ -16,4 +17,5 @@ export const config: Config = {
   databaseUrl: process.env.DATABASE_URL,
   jwtSecret: process.env.JWT_SECRET || "",
   sessionSecret: process.env.SESSION_SECRET,
+  saltRounds: Number(process.env.SALTROUNDS) || 10,
 };

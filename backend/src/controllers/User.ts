@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from "express";
-import { prisma } from "../config";
+import { config, prisma } from "../config";
 import { isEmptyObject } from "../utils/checkEmptyObject";
+
+import bcrypt from "bcrypt";
 
 export const getUsers = async (
   req: Request,
@@ -8,7 +10,15 @@ export const getUsers = async (
   next: NextFunction
 ) => {
   try {
-    const users = await prisma.user.findMany();
+    const users = await prisma.user.findMany({
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        username: true,
+        role: true,
+      },
+    });
     res.status(200).json(users);
   } catch (error) {
     next(error);
@@ -22,7 +32,16 @@ export const getUser = async (
 ) => {
   try {
     const { id } = req.params;
-    const user = await prisma.user.findUnique({ where: { id: Number(id) } });
+    const user = await prisma.user.findUnique({
+      where: { id: Number(id) },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        username: true,
+        role: true,
+      },
+    });
     res.status(200).json(user);
   } catch (error) {
     next(error);
@@ -36,12 +55,17 @@ export const createUser = async (
 ) => {
   try {
     const { name, email, password, username, role } = req.body;
+
+    const hashedPassword = await bcrypt.hash(
+      password,
+      Number(config.saltRounds)
+    );
     const user = await prisma.user.create({
       data: {
         name,
         email,
         username,
-        password,
+        password: hashedPassword,
         role,
       },
     });
@@ -63,12 +87,42 @@ export const updateUser = async (
     });
 
     if (isEmptyObject(userRetrived)) {
-      const { name, email, password, role } = req.body;
+      const { name, email, role } = req.body;
       const user = await prisma.user.update({
         where: { id: Number(id) },
-        data: { name, email, password, role },
+        data: {
+          name: name || userRetrived?.name,
+          email: email || userRetrived?.email,
+          role: role || userRetrived?.role,
+        },
       });
-      res.status(200).json(user);
+      res.status(200).json({ message: "Successfully Updated" });
+    } else {
+      next({ message: "User Not found" });
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateUserPassword = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id } = req.params;
+    const userRetrived = await prisma.user.findUnique({
+      where: { id: Number(id) },
+    });
+
+    if (isEmptyObject(userRetrived)) {
+      const { password } = req.body;
+      const user = await prisma.user.update({
+        where: { id: Number(id) },
+        data: { password },
+      });
+      res.status(200).json({ message: "Password Updated Successfully" });
     } else {
       next({ message: "User Not found" });
     }
@@ -85,7 +139,7 @@ export const deleteUser = async (
   try {
     const { id } = req.params;
     await prisma.user.delete({ where: { id: Number(id) } });
-    res.status(200).json({ status: "success" });
+    res.status(200).json({ message: "User deleted Successfully" });
   } catch (error) {
     next(error);
   }
