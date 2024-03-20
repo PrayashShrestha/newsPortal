@@ -21,7 +21,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import AdbIcon from "@mui/icons-material/Adb";
 
 const pages = ["Products", "Pricing", "Blog"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const settings = ["Profile", "Account","Logout"];
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -46,7 +46,6 @@ function ResponsiveAppBar() {
 
   useEffect(() => {
     const user = Cookies.get("user");
-    console.log(user)
     if(user){
       const userJson = JSON.parse(user)
       setUser(userJson)
@@ -55,6 +54,20 @@ function ResponsiveAppBar() {
       setAuthenticated(false);
     }
   }, []);
+
+  
+  const handleLogout = async () => {
+    const response = await fetch('/api/auth/logout', {
+      method:'POST',
+      headers: {'Content-Type': 'application/json'},
+    })
+    if(response.ok){
+      Cookies.remove("user");
+      setAuthenticated(false);
+      Router.push("/login");
+    }
+  };
+
 
   return (
     <AppBar position="static">
@@ -172,7 +185,7 @@ function ResponsiveAppBar() {
                 onClose={handleCloseUserMenu}
               >
                 {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                  <MenuItem key={setting} onClick={setting === "Logout" ? handleLogout : handleCloseUserMenu}>
                     <Typography textAlign="center">{setting}</Typography>
                   </MenuItem>
                 ))}
@@ -186,8 +199,7 @@ function ResponsiveAppBar() {
                   backgroundColor: "white",
                   color: "#19857b",
                   fontSize: "16px",
-                  paddingLeft: "12px",
-                  paddingRight: "12px",
+                  width:"140%",
                   "&:hover": {
                     color: "white",
                   },
