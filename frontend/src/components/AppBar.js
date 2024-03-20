@@ -66,6 +66,9 @@ function ResponsiveAppBar() {
       setAuthenticated(false);
       Router.push("/login");
     }
+    else{
+      alert(`Error ${response.status}`)
+    }
   };
 
 

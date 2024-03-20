@@ -19,6 +19,7 @@ const authenticateUser = async (
         email: user.email,
         name: user.name,
         role: user.role,
+        userId: user.id,
       };
       res.status(200).json(responseObj);
     } else {

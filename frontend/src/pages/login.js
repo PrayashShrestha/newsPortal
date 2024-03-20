@@ -29,10 +29,11 @@ export default function LoginPage() {
         body: JSON.stringify(loginData)
       })
       if (response.ok) {
-        const {_, name, role} = await response.json()
+        const {_, name, role,userId} = await response.json()
         const userData = {
           name: name,
-          role: role
+          role: role,
+          userId:userId,
         }
         Cookies.set('user' , JSON.stringify(userData), {expires: 7})
         if (role === 'Admin'){
