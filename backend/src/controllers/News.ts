@@ -10,7 +10,7 @@ export const getAllNews = async (
   try {
     const news = await prisma.news.findMany({
       include: {
-        author: true
+        author: true,
       },
     });
     res.status(200).json(news);
@@ -18,7 +18,6 @@ export const getAllNews = async (
     next(error);
   }
 };
-
 
 export const getSingleNews = async (
   req: Request,
