@@ -29,10 +29,21 @@ export default function TextEditor() {
 
   const handleConfirmSend = async () => {
     setOpenModal(false);
-    const contentState = editorState.getCurrentContent();
-    const content = JSON.stringify(convertToRaw(contentState));
+    const content = editorValue?.blocks?.map((block) => {
+      let contentText = ""
+      contentText+=block?.text
+      return contentText
+    })
+    const data = {
+      title: title,
+      content: content,
+      status: "Pending",
+      authorId: 6,
+      categoryId: 1
+    }
+    const postData = JSON.stringify(data)
 
-    editorServices.postArticle(postImage, content);
+    editorServices.postArticle(postImage, postData);
     setOpenModal(false);
   };
 

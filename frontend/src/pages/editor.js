@@ -69,8 +69,6 @@ export default function editor() {
       label: "Write a news",
       component: (
         <div style={{position: "relative"}}>
-          {/* <ResponsiveAppBar /> */}
-
           <Container maxWidth="md" sx={{ marginY: 2, marginX: "auto" }}>
             <TextEditor />
           </Container>
