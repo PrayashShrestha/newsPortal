@@ -24,8 +24,7 @@ export default function admin() {
       if(user){
         var role = JSON.parse(user).role
       }
-      console.log(user)
-      if (!user || role !== "Admin") {
+      if (!user || role !== "Admin" || role !== "admin") {
         Router.push('/login');
       }
       else{
