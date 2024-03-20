@@ -3,7 +3,9 @@ import { config, prisma } from "../config";
 import { isEmptyObject } from "../utils/checkEmptyObject";
 
 import bcrypt from "bcrypt";
-import { welcomeEmail } from "./Mailer";
+import { forgetEmail, welcomeEmail } from "../utils/Mailer";
+
+import generator from "generate-password";
 
 export const getUsers = async (
   req: Request,
@@ -129,12 +131,15 @@ export const updateUserPassword = async (
     const userRetrived = await prisma.user.findUnique({
       where: { id: Number(id) },
     });
+    const { password, newPassword } = req.body;
 
-    if (isEmptyObject(userRetrived)) {
-      const { password } = req.body;
+    if (
+      userRetrived &&
+      (await bcrypt.compare(password, userRetrived?.password))
+    ) {
       const user = await prisma.user.update({
         where: { id: Number(id) },
-        data: { password },
+        data: { password: newPassword },
       });
       res.status(200).json({ message: "Password Updated Successfully" });
     } else {
@@ -154,6 +159,42 @@ export const deleteUser = async (
     const { id } = req.params;
     await prisma.user.delete({ where: { id: Number(id) } });
     res.status(200).json({ message: "User deleted Successfully" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const forgotUserPassword = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id } = req.params;
+    const userRetrived = await prisma.user.findUnique({
+      where: { id: Number(id) },
+    });
+    if (userRetrived) {
+      const password = generator.generate({
+        length: 10,
+        numbers: true,
+      });
+
+      const hashedPassword = await bcrypt.hash(
+        password,
+        Number(config.saltRounds)
+      );
+
+      const user = await prisma.user.update({
+        where: { id: Number(id) },
+        data: { password: hashedPassword },
+      });
+      if (user) {
+        forgetEmail(user, password);
+      }
+    }
+
+    res.status(200).json({ message: "New password sent to your email." });
   } catch (error) {
     next(error);
   }
