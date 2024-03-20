@@ -9,11 +9,9 @@ export const getAllNews = async (
 ) => {
   try {
     const news = await prisma.news.findMany({
-      take: 10,
       include: {
-        user: true,
+        author: true
       },
-
     });
     res.status(200).json(news);
   } catch (error) {
