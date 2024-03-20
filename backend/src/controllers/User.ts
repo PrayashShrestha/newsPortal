@@ -53,6 +53,32 @@ export const getUser = async (
         email: true,
         username: true,
         role: true,
+      },
+    });
+    res.status(200).json(user);
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+
+
+export const getNewsByUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id } = req.params;
+    const user = await prisma.user.findUnique({
+      where: { id: Number(id) },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        username: true,
+        role: true,
         News: {
           select: {
             id: true,
