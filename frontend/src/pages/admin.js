@@ -18,13 +18,14 @@ export default function admin() {
   const[isAuthenticated, setAuthenticated] = useState(false)
   const [author, setAuthor] = useState([])
   const [updateFlag, setUpdateFlag] = useState(false);  
+  const [article,setArticle] = useState([])
 
     useEffect(() => {
       const user = Cookies.get('user');
       if(user){
         var role = JSON.parse(user).role
       }
-      if (!user || role !== "Admin" || role !== "admin") {
+      if (!user || role !== "Admin") {
         Router.push('/login');
       }
       else{
@@ -55,6 +56,23 @@ export default function admin() {
       fetchEditors()
     },[updateFlag])
 
+    useEffect(() => {
+      const fetchArticles = async () => {
+        const response = await fetch ('api/news', {
+          method: "GET"
+        })
+        if(response.ok){
+          const result = await response.json()
+          setArticle(result)
+        }
+        else{
+          console.log(response)
+        }
+      }
+
+      fetchArticles()
+    },[])
+
 
     const dashboardData = [
       { x: "John Doe", y: 10 },
@@ -63,37 +81,24 @@ export default function admin() {
       { x: "Will Smith", y: 10 },
     ];
   
-    const dateNow = new Date().toDateString();
-    const articlerows = [
-      {
-        articleId: "1",
-        title: "Fire Engulfs City Block",
-        author: "John Doe",
-        date: dateNow,
-        status: <Chip label="Posted" color="success" variant="outlined" />,
-      },
-      {
-        articleId: "2",
-        title: "Technology Trends: AI Advancements",
-        author: "Hari Paudel",
-        date: dateNow,
-        status: <Chip label="Pending" color="warning" variant="outlined" />,
-      },
-      {
-        articleId: "3",
-        title: "World Politics: Summit Diplomacy",
-        author: "John wick",
-        date: dateNow,
-        status: <Chip label="Pending" color="warning" variant="outlined" />,
-      },
-      {
-        articleId: "4",
-        title: "Health & Wellness: New Exercise Trends",
-        author: "Will Smith",
-        date: dateNow,
-        status: <Chip label="Rejected" color="error" variant="outlined" />,
-      },
-    ];
+    const articlerows = article?.map((val) => {
+      let chip;
+      if(val.status === "pending"){
+        chip = <Chip label="Pending" color="warning" variant="outlined" />
+     }
+     else{
+       chip = <Chip label="Posted" color="success" variant="outlined" />
+     }
+      let data = {
+        articleId: val.id,
+        title: val.title,
+        author: val.author.name,
+        date: val.publishedAt,
+        status: chip
+      }
+      return data
+    })
+    
   
     const articlecolumns = [
       { id: "articleId", label: "Article Id" },
