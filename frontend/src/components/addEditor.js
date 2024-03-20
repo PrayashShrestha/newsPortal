@@ -23,7 +23,7 @@ function generatePassword(length = 10) {
   return password;
 }
 
-export default function PopoverForm() {
+export default function PopoverForm({ onAdd }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [formData, setFormData] = useState({ name: "", email: "", username: "" });
 
@@ -39,6 +39,7 @@ export default function PopoverForm() {
 
   const handleClose = () => {
     setAnchorEl(null);
+    onAdd();
   };
 
   const handleChange = (event) => {
