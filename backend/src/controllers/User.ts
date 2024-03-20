@@ -35,8 +35,11 @@ export const getUsersByRole = async (req: Request, res: Response) => {
   }
 };
 
-
-export const getUser = async (req: Request, res: Response, next: NextFunction) => {
+export const getUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const { id } = req.params;
     const user = await prisma.user.findUnique({

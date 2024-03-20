@@ -127,7 +127,7 @@ export const deleteNews = async (
   try {
     const { id } = req.params;
     await prisma.news.delete({ where: { id: Number(id) } });
-    res.status(200).json({ status: "success" });
+    res.status(200).json({ message: "News Deleted Successfully" });
   } catch (error) {
     next(error);
   }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { Container, Paper } from "@mui/material";
 import Chip from "@mui/material/Chip";
@@ -10,6 +10,29 @@ import ResponsiveAppBar from "../components/AppBar"
 import PopoverForm from "../components/addEditor";
 
 function admin() {
+  const [author, setAuthor] = useState([])
+
+  useEffect(() => {
+    const fetchEditors = async () =>{
+      const data = {
+        "role": "Editor"
+      }
+      const response = await fetch('api/user/role', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+      })
+      if(response.ok){
+        const result = await response.json()
+        setAuthor(result)
+      }else{
+        throw new Error('Network response was not ok')
+      }
+    }
+    fetchEditors()
+  },[])
   const dashboardData = [
     { x: "John Doe", y: 10 },
     { x: "Hari Paudel", y: 10 },
@@ -60,32 +83,21 @@ function admin() {
     },
   ];
 
-  const authorrows = [
+    const authorrows = author.map((data) => (
     {
-      authorId: "1",
-      author: "John Doe",
-      email: "johndoe@miu.edu",
-      noOfArticle: 10,
-    },
-    {
-        authorId: "2",
-        author: "John Wick",
-        email: "johmWick@miu.edu",
-        noOfArticle: 5,
-      },
-      {
-        authorId: "3",
-        author: "Will Smith",
-        email: "willSmith@miu.edu",
-        noOfArticle: 2,
-      },
-  ];
+    authorId: data?.id || "",
+    author: data?.name || "",
+    email: data?.email || "",
+    username: data?.username || ""
+    }
+    
+  ))
 
   const authorcolumns = [
     { id: "authorId", label: "Author Id" },
     { id: "author", label: "Author Name" },
+    { id: "username", label: "User Name" },
     { id: "email", label: "Email" },
-    { id: "noOfArticle", label: "Articles Published" },
   ];
 
   function handleButtonClick(row) {
