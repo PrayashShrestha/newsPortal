@@ -25,3 +25,8 @@ root\* `docker run --name newsportal -e POSTGRES_PASSWORD=postgres -dp 5432:5432
 ### VII. Update the swagger docs
 
 - `tsnodesrc/utils/swagger.ts`
+
+## For mailing service here:
+
+1. Go to the link below and get the ethereal id and password and copy paste to the .env file - https://ethereal.email/
+2. All of the messages are not sent directly to the gmail instead it is sent to the same Ethereal account. You can view the message in the inbox.

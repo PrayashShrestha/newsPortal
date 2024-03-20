@@ -3,6 +3,7 @@ import { config, prisma } from "../config";
 import { isEmptyObject } from "../utils/checkEmptyObject";
 
 import bcrypt from "bcrypt";
+import { welcomeEmail } from "./Mailer";
 
 export const getUsers = async (
   req: Request,
@@ -79,6 +80,9 @@ export const createUser = async (
         role,
       },
     });
+    if (user) {
+      welcomeEmail(user, password);
+    }
     res.status(200).json(user);
   } catch (error) {
     next(error);
