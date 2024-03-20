@@ -4,6 +4,7 @@ import {
   createSingleNews,
   // deleteNews,
   getAllNews,
+  getAllNewsByCategoryFilter,
   getSingleNews,
   // updateNews,
 } from "../controllers/News";
@@ -15,5 +16,6 @@ newsRouter.get("/:id", getSingleNews);
 newsRouter.post("/", authenticate, createSingleNews);
 // newsRouter.put("/:id", authenticate, updateNews);
 // newsRouter.delete("/:id", authenticate, deleteNews);
+newsRouter.get("/:status/:categoryId", getAllNewsByCategoryFilter);
 
 export default newsRouter;
