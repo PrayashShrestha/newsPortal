@@ -3,8 +3,12 @@ import { EditorState, convertToRaw, ContentState } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { Button, Grid, Modal, Box } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import TextField from '@material-ui/core/TextField';
+import TextField from "@material-ui/core/TextField";
 
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 import dynamic from "next/dynamic";
 import editorServices from "../services/editorService";
 import "react-quill/dist/quill.snow.css";
@@ -21,7 +25,12 @@ export default function TextEditor() {
 
   const [openModal, setOpenModal] = useState(false);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState("");
+  const [category, setCategory] = React.useState("");
+
+  const handleChangeCategory = (event) => {
+    setCategory(event.target.value);
+  };
 
   const handleCloseModal = () => {
     setOpenModal(false);
@@ -30,18 +39,17 @@ export default function TextEditor() {
   const handleConfirmSend = async () => {
     setOpenModal(false);
     const content = editorValue?.blocks?.map((block) => {
-      let contentText = ""
-      contentText+=block?.text
-      return contentText
-    })
+      let contentText = "";
+      contentText += block?.text;
+      return contentText;
+    });
+
     const data = {
       title: title,
       content: content,
-      status: "Pending",
-      authorId: 6,
-      categoryId: 1
-    }
-    const postData = JSON.stringify(data)
+      categoryId: category,
+    };
+    const postData = JSON.stringify(data);
 
     editorServices.postArticle(postImage, postData);
     setOpenModal(false);
@@ -52,9 +60,8 @@ export default function TextEditor() {
   };
   const handleTitle = (e) => {
     //console.log(value)
-    setTitle(e.target.value)
-  }
-
+    setTitle(e.target.value);
+  };
 
   const saveContent = () => {
     setOpenModal(true);
@@ -73,12 +80,33 @@ export default function TextEditor() {
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     setPostImage(file);
-    console.log(postImage, "imagefile");
   };
 
   return (
     <div>
       {" "}
+      <div style={{ position: "absolute", top: -30, right: 300 }}>
+        <Box sx={{ minWidth: 120 }}>
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label" sx={{}}>
+              Category
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={category}
+              label="Category"
+              onChange={handleChangeCategory}
+            >
+              <MenuItem value={1}>Sports</MenuItem>
+              <MenuItem value={2}>Entertainment</MenuItem>
+              <MenuItem value={3}>Politics</MenuItem>
+              <MenuItem value={4}>National</MenuItem>
+              <MenuItem value={5}>International</MenuItem>
+            </Select>
+          </FormControl>
+        </Box>{" "}
+      </div>
       <label
         htmlFor="post-image"
         style={{ position: "absolute", top: -30, right: -5 }}
@@ -99,11 +127,17 @@ export default function TextEditor() {
         onChange={handleImageChange}
         style={{ display: "none" }}
       />
-
-      <TextField id="title" label="Title" style={{ margin: 8 }}
-          placeholder="Write the title here..." helperText="" fullWidth
-          margin="normal" InputLabelProps={{ shrink: true, }} 
-          onChange={handleTitle}/>
+      <TextField
+        id="title"
+        label="Title"
+        style={{ margin: 8 }}
+        placeholder="Write the title here..."
+        helperText=""
+        fullWidth
+        margin="normal"
+        InputLabelProps={{ shrink: true }}
+        onChange={handleTitle}
+      />
       <ReactQuill
         editorState={editorState}
         onEditorStateChange={handleEditorStateChange}
