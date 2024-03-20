@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { prisma } from "../config";
 import { isEmptyObject } from "../utils/checkEmptyObject";
+import { equal } from "assert";
 
 export const getAllNews = async (
   req: Request,
@@ -10,8 +11,17 @@ export const getAllNews = async (
   try {
     const news = await prisma.news.findMany({
       include: {
-        author: true,
+        author: {
+          select: {
+            name: true,
+          },
+        },
       },
+      orderBy: [
+        {
+          publishedAt: "desc",
+        },
+      ],
     });
     res.status(200).json(news);
   } catch (error) {
@@ -130,3 +140,38 @@ export const createSingleNews = async (
 //     next(error);
 //   }
 // };
+
+export const getAllNewsByCategoryFilter = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { categoryId, status } = req.params;
+  console.log("show: " + categoryId, status);
+  try {
+    const news = await prisma.news.findMany({
+      where: { categoryId: Number(categoryId), status },
+      include: {
+        author: {
+          select: {
+            name: true,
+            role: true,
+          },
+        },
+        category: {
+          select: {
+            name: true,
+          },
+        },
+      },
+      orderBy: [
+        {
+          publishedAt: "desc",
+        },
+      ],
+    });
+    res.status(200).json(news);
+  } catch (error) {
+    next(error);
+  }
+};
