@@ -24,10 +24,9 @@ const authenticate = async (
     }
 
     const user = await prisma.user.findUnique({
-      where: { username: decoded.userId },
+      where: { email: decoded.userId },
     });
-
-    if (isEmptyObject(user)) {
+    if (!user) {
       res.status(400).send(`User not found in with ${decoded}`);
     }
 
