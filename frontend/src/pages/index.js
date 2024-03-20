@@ -12,6 +12,12 @@ import {
   Divider 
 } from '@mui/material';
 
+
+
+
+
+
+
 export default function Homepage() {
   function sendProps(id){
     Router.push({pathname:'/details',query:{id}})

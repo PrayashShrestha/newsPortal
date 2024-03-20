@@ -4,6 +4,7 @@ import {
   getUser,
   createUser,
   updateUser,
+  getNewsByUser,
   deleteUser,
   getUsersByRole,
   updateUserPassword,
