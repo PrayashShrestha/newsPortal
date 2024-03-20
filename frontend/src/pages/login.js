@@ -36,11 +36,11 @@ export default function LoginPage() {
           userId:userId,
         }
         Cookies.set('user' , JSON.stringify(userData), {expires: 7})
-        if (role === 'Admin'){
+        if (role === 'Admin' || role === 'admin'){
           Router.push('/admin')
 
         }
-        else if (role === 'Editor'){
+        else if (role === 'Editor' || role === 'editor'){
           Router.push("/editor")
         }
         else {

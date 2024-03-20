@@ -63,7 +63,7 @@ export default function editor() {
   const dateNow = new Date().toDateString();
   const articlerows = article.map((val) => {
     let chip;
-   if(val.status === "Pending"){
+   if(val.status === "Pending" || val.status === "Pending"){
        chip = <Chip label="Pending" color="warning" variant="outlined" />
     }
     else{
