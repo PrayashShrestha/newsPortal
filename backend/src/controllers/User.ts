@@ -53,6 +53,18 @@ export const getUser = async (
         email: true,
         username: true,
         role: true,
+        News: {
+          select: {
+            id: true,
+            title: true,
+            content: true,
+            publishedAt: true,
+            featuredImage: true,
+            status: true,
+            authorId: true,
+            categoryId: true,
+          },
+        },
       },
     });
     res.status(200).json(user);

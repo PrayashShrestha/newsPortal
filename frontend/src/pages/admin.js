@@ -101,10 +101,7 @@ export default function admin() {
       { id: "title", label: "Title" },
       { id: "author", label: "Author" },
       { id: "date", label: "Date Published" },
-      {
-        id: "status",
-        label: "Status",
-      },
+      { id: "status", label: "Status" },
     ];
   
       const authorrows = author.map((data) => (

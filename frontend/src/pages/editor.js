@@ -14,7 +14,9 @@ import TextEditor from "../components/TextEditor";
 
 export default function editor() {
 
-  const[isAuthenticated, setAuthenticated] = useState(false)
+  const[isAuthenticated, setAuthenticated] = useState(false);
+  const [article, setArticle] = useState([]);
+  const [updateFlag, setUpdateFlag] = useState(false);  
 
   useEffect(() => {
     const user = Cookies.get('user');
@@ -28,6 +30,30 @@ export default function editor() {
       setAuthenticated(true)
     }
   }, []);
+
+
+  useEffect(() => {
+    const fetchEditors = async () =>{
+      const response = await fetch('api/user/:id', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+      if(response.ok){
+        const result = await response.json()
+        setArticle(result)
+      }else{
+        throw new Error('Network response was not ok')
+      }
+    }
+    fetchEditors()
+  },[updateFlag])
+
+
+
+
+
   const dashboardData = [
     { x: "Published", y: 8 },
     { x: "Pending", y: 2 },
@@ -35,15 +61,26 @@ export default function editor() {
   ];
 
   const dateNow = new Date().toDateString();
-  const articlerows = [
+  // const articlerows = [
+  //   {
+  //     articleId: "1",
+  //     title: "Fire Engulfs City Block",
+  //     author: "John Doe",
+  //     date: dateNow,
+  //     status: <Chip label="Posted" color="success" variant="outlined" />,
+  //   },
+  // ];
+
+
+  const articlerows = article.map((data) => (
     {
-      articleId: "1",
-      title: "Fire Engulfs City Block",
-      author: "John Doe",
-      date: dateNow,
-      status: <Chip label="Posted" color="success" variant="outlined" />,
-    },
-  ];
+      articleId: data?.News.id || "",
+      title: data?.News.title || "",
+      author: data?.News.name || "",
+      date: data?.News.publishedAt || "",
+      status: data?.News.status || ""
+    }
+  ))
 
   const articlecolumns = [
     { id: "articleId", label: "Article Id" },
@@ -52,6 +89,7 @@ export default function editor() {
     { id: "date", label: "Date Published" },
     { id: "status", label: "Status", },
   ];
+
   function handleButtonClick(row) {
     console.log("Button clicked for row:", row);
   }
