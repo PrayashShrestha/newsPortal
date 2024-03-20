@@ -1,4 +1,7 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
+
+import Cookies from 'js-cookie';
+import Router from 'next/router';
 
 import { Container, Paper } from "@mui/material";
 import Chip from "@mui/material/Chip";
@@ -9,7 +12,22 @@ import DynamicTable from "../components/Table";
 import ResponsiveAppBar from "../components/AppBar";
 import TextEditor from "../components/TextEditor";
 
-function editor() {
+export default function editor() {
+
+  const[isAuthenticated, setAuthenticated] = useState(false)
+
+  useEffect(() => {
+    const user = Cookies.get('user');
+    if(user){
+      var role = JSON.parse(user).role
+    }
+    if (!user || role !== "Editor") {
+      Router.push('/login');
+    }
+    else{
+      setAuthenticated(true)
+    }
+  }, []);
   const dashboardData = [
     { x: "Published", y: 8 },
     { x: "Pending", y: 2 },
@@ -74,17 +92,16 @@ function editor() {
       ),
     },
   ];
-
-  return (
-    <div>
-      <ResponsiveAppBar />
-      <Container sx={{ mt: "30px", padding: "50px" }}>
-        <Paper elevation={5}>
-          <DynamicTabs tabs={tabsData} />
-        </Paper>
-      </Container>
-    </div>
-  );
+  {if(isAuthenticated){
+    return (
+      <div>
+        <ResponsiveAppBar />
+        <Container sx={{ mt: "30px", padding: "50px" }}>
+          <Paper elevation={5}>
+            <DynamicTabs tabs={tabsData} />
+          </Paper>
+        </Container>
+      </div>
+    );
+  }}
 }
-
-export default editor;

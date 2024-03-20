@@ -31,8 +31,8 @@ export default function LoginPage() {
       if (response.ok) {
         const {_, name, role} = await response.json()
         const userData = {
-          "name": name,
-          "role": role
+          name: name,
+          role: role
         }
         Cookies.set('user' , JSON.stringify(userData), {expires: 7})
         if (role === 'Admin'){
