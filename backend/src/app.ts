@@ -9,6 +9,8 @@ import { routes } from "./routes/";
 import { config } from "./config";
 import { errorHandler } from "./middlewares/ErrorHandlers";
 
+import path from "path";
+
 const swaggerOutput = require("./routes/swagger_output.json");
 
 const app = express();
@@ -25,6 +27,11 @@ app.use(
 app.use(morgan("dev"));
 app.use(cookieParser());
 
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+app.use(cors({
+  origin: 'http://localhost:3000'
+}))
 /* Routers */
 app.use("/api", routes);
 
