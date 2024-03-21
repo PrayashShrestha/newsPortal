@@ -10,6 +10,7 @@ import {
 import userService from "../services/userService";
 import Image from "next/image";
 import LETSS from "../public/assets/LETSS.png";
+import Router from "next/router";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -24,7 +25,7 @@ const ForgotPassword = () => {
       setTimeout(() => {
         setMessage("");
         setOpenSnackbar(false);
-        router.push("/login");
+        Router.push("/login");
       }, 4000);
     } catch (error) {
       console.error("Error:", error.response.data.error);
