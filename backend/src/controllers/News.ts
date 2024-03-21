@@ -1,7 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import { prisma } from "../config";
-import { isEmptyObject } from "../utils/checkEmptyObject";
-import { equal } from "assert";
 
 export const getAllNews = async (
   req: Request,
@@ -56,7 +54,7 @@ export const createSingleNews = async (
         title,
         content,
         featuredImage,
-        status,
+        status: "Published",
         authorId,
         categoryId,
       },
@@ -171,6 +169,75 @@ export const getAllNewsByCategoryFilter = async (
       ],
     });
     res.status(200).json(news);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getRandomNews = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const newsCount = await prisma.news.count();
+
+    const randomIndices: number[] = [];
+    while (randomIndices.length < 5) {
+      const randomIndex = Math.floor(Math.random() * newsCount);
+      if (!randomIndices.includes(randomIndex)) {
+        randomIndices.push(randomIndex);
+      }
+    }
+
+    const randomNews = await Promise.all(
+      randomIndices.map(async (index) => {
+        return await prisma.news.findFirst({
+          skip: index,
+          include: {
+            author: true,
+            category: true,
+          },
+        });
+      })
+    );
+
+    res.status(200).json(randomNews);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getCategoriesBasedNews = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  console.log("Entered");
+
+  try {
+    const categories = await prisma.category.findMany({
+      include: {
+        News: {
+          take: 10,
+          orderBy: {
+            publishedAt: "desc",
+          },
+          select: {
+            id: true,
+            title: true,
+            content: true,
+            publishedAt: true,
+            featuredImage: true,
+            status: true,
+            author: true,
+            category: true,
+          },
+        },
+      },
+    });
+    console.log(categories);
+    res.status(200).json(categories);
   } catch (error) {
     next(error);
   }

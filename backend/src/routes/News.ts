@@ -5,6 +5,8 @@ import {
   // deleteNews,
   getAllNews,
   getAllNewsByCategoryFilter,
+  getCategoriesBasedNews,
+  getRandomNews,
   getSingleNews,
   // updateNews,
 } from "../controllers/News";
@@ -12,10 +14,14 @@ import {
 const newsRouter = express.Router();
 
 newsRouter.get("/", getAllNews);
-newsRouter.get("/:id", getSingleNews);
 newsRouter.post("/", authenticate, createSingleNews);
+newsRouter.get("/category-based-news", getCategoriesBasedNews)
+newsRouter.get("/get-recommend-news", getRandomNews)
 // newsRouter.put("/:id", authenticate, updateNews);
 // newsRouter.delete("/:id", authenticate, deleteNews);
+
+
+newsRouter.get("/:id", getSingleNews);
 newsRouter.get("/:status/:categoryId", getAllNewsByCategoryFilter);
 
 export default newsRouter;
