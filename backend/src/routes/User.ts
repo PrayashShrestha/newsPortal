@@ -1,4 +1,4 @@
-import { getNewsByUser } from "./../controllers/User";
+import { getNewsByUser, getNewsByUsers } from "./../controllers/User";
 import {
   getUsers,
   getUser,
@@ -17,12 +17,14 @@ const userRouter = express.Router();
 
 userRouter.get("/", authenticate, getUsers);
 userRouter.post("/role", authenticate, getUsersByRole);
+userRouter.put("/update-password/:id", updateUserPassword);
+userRouter.post("/forgot-password/:id", forgotUserPassword);
+userRouter.get("/get-user-news", getNewsByUsers);
+userRouter.get("/get-user-news/:id", getNewsByUser);
 userRouter.get("/:id", authenticate, getUser);
 userRouter.post("/", authenticate, createUser);
 userRouter.put("/:id", authenticate, updateUser);
-userRouter.put("/update-password/:id", updateUserPassword);
 userRouter.delete("/:id", authenticate, deleteUser);
-userRouter.post("/forgot-password/:id", forgotUserPassword);
-userRouter.get("/get-user-news/:id", getNewsByUser);
+
 
 export default userRouter;
