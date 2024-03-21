@@ -46,9 +46,71 @@ export default function Homepage() {
  
 
 
+
+
+
+ 
+ 
+  // useEffect(() => {
+  //   const fetchArticles = async () =>{
+  //     const response = await fetch('api/news', {
+  //       method: 'GET',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //     })
+  //     if(response.ok){
+  //       const result = await response.json();
+  //       setArticle1(result);
+  //     }else{
+  //       throw new Error('Network response was not ok')
+  //     }
+  //   }
+  //   fetchArticles()
+  // },[])
+ 
+  // useEffect(() => {
+  //   const fetchArticles = async () =>{
+  //     const response = await fetch('api/news', {
+  //       method: 'GET',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //     })
+  //     if(response.ok){
+  //       const result = await response.json();
+  //       setArticle2(result);
+  //     }else{
+  //       throw new Error('Network response was not ok')
+  //     }
+  //   }
+  //   fetchArticles()
+  // },[])
+ 
+  // useEffect(() => {
+  //   const fetchArticles = async () =>{
+  //     const response = await fetch('api/news', {
+  //       method: 'GET',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //     })
+  //     if(response.ok){
+  //       const result = await response.json();
+  //       setArticle3(result);
+  //     }else{
+  //       throw new Error('Network response was not ok')
+  //     }
+  //   }
+  //   fetchArticles()
+  // },[])
+
+
+
+
   useEffect(() => {
     const fetchCategory = async () =>{
-      const response = await fetch('api/category', {
+      const response = await fetch('api/news/category-based-news', {
         method: 'GET',
         headers: {'Content-Type': 'application/json',},
       })
@@ -63,66 +125,20 @@ export default function Homepage() {
     }
     fetchCategory();
   }, []);
-  console.log("category", categoryJSON)
+  console.log("category", category)
 
 
 
- 
- 
-  useEffect(() => {
-    const fetchArticles = async () =>{
-      const response = await fetch('api/news', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      if(response.ok){
-        const result = await response.json();
-        setArticle1(result);
-      }else{
-        throw new Error('Network response was not ok')
-      }
-    }
-    fetchArticles()
-  },[])
- 
-  useEffect(() => {
-    const fetchArticles = async () =>{
-      const response = await fetch('api/news', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      if(response.ok){
-        const result = await response.json();
-        setArticle2(result);
-      }else{
-        throw new Error('Network response was not ok')
-      }
-    }
-    fetchArticles()
-  },[])
- 
-  useEffect(() => {
-    const fetchArticles = async () =>{
-      const response = await fetch('api/news', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      if(response.ok){
-        const result = await response.json();
-        setArticle3(result);
-      }else{
-        throw new Error('Network response was not ok')
-      }
-    }
-    fetchArticles()
-  },[])
- 
+
+
+
+
+
+
+
+
+
+
  
   return (
     <div>
@@ -211,7 +227,7 @@ export default function Homepage() {
            
             <Container maxWidth="md">
             <Divider sx={{ marginY: 3, marginX: 'auto', borderColor: 'primary.main', borderWidth: '2px', borderStyle: 'solid' }} />
-            <Typography variant="h4" component="h4" sx={{ marginY: 1, marginX: 'auto' }}>{elem1.name}</Typography>
+            <Typography variant="h4" component="h4" sx={{ marginY: 1, marginX: 'auto' }} id={`${elem1.name.toLowerCase}`}>{elem1.name}</Typography>
             <Grid container spacing={3} >
             {elem1.News.map((elem2) => { return(
               <Grid item xs={12} sm={6} md={4} lg={3} key={elem2.id} onClick={() => sendProps(elem2.id)} style={{ cursor: 'pointer' }}>
