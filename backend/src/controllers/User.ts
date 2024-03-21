@@ -174,7 +174,6 @@ export const forgotUserPassword = async (
     const userRetrived = await prisma.user.findUnique({
       where: { email: email },
     });
-    console.log(",,,,,,,,,,,", userRetrived);
 
     if (userRetrived) {
       const password = generator.generate({
