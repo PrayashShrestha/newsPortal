@@ -1,0 +1,54 @@
+  [
+    {
+      "id": 1,
+      "name": "Food",
+      "News": [
+        {
+          "id": 1,
+          "title": "Exploring the World of Fusion Cuisine",
+          "content": ["Discover the endless possibilities when East meets West in the kitchen.", "Learn how to blend spices and ingredients from different cultures."],
+          "publishedAt": "2024-03-20T12:00:00.000Z",
+          "featuredImage": "fusion_cuisine.jpg",
+          "status": "published",
+          "authorId": 1,
+          "categoryId": 1
+        },
+        {
+          "id": 2,
+          "title": "The Rise of Plant-Based Diets",
+          "content": ["Understanding the health benefits of plant-based eating.", "Tips for starting your journey with plant-based foods."],
+          "publishedAt": "2024-03-18T15:00:00.000Z",
+          "featuredImage": "plant_based_diets.jpg",
+          "status": "published",
+          "authorId": 2,
+          "categoryId": 1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Home",
+      "News": [
+        {
+          "id": 3,
+          "title": "Minimalist Living: A Guide to Simplifying Your Space",
+          "content": ["Learn the principles of minimalist design and how they can help declutter your home.", "Explore real-life examples of minimalist living spaces."],
+          "publishedAt": "2024-03-17T09:30:00.000Z",
+          "featuredImage": "minimalist_living.jpg",
+          "status": "published",
+          "authorId": 3,
+          "categoryId": 2
+        },
+        {
+          "id": 4,
+          "title": "Smart Homes: The Future of Living",
+          "content": ["Discover how technology is transforming homes into smart living spaces.", "Get insights into the latest smart home gadgets and their benefits."],
+          "publishedAt": "2024-03-15T11:00:00.000Z",
+          "featuredImage": "smart_homes.jpg",
+          "status": "published",
+          "authorId": 4,
+          "categoryId": 2
+        }
+      ]
+    }
+  ]

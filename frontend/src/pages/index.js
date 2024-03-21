@@ -1,8 +1,8 @@
 import Router from "next/router"
-import data from "../public/assets/data.json";
-import bottomArticle from "../public/assets/bottomArticle.json";
 import CardComp from '../components/CardComp';
 import ResponsiveAppBar from '../components/AppBar';
+import categoryJSON from "../public/assets/categoryJSON.json";
+import recommended from "../public/assets/recommended.json";
 import axios from 'axios'
 import React, { useEffect, useState } from "react";
  
@@ -19,6 +19,7 @@ export default function Homepage() {
   }
  
   const [article, setArticle] = useState([])
+  const [category, setCategory] = useState([])
  
   const [article1, setArticle1] = useState([])
   const [article2, setArticle2] = useState([])
@@ -43,11 +44,34 @@ export default function Homepage() {
     fetchArticles()
   },[])
  
+
+
+  useEffect(() => {
+    const fetchCategory = async () =>{
+      const response = await fetch('api/category', {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json',},
+      })
+      if(response.ok){
+        const result = await response.json();
+        console.log(result);
+        setCategory(result);
+      }else{
+        console.log(response);
+        throw new Error('Network response was not ok');
+      }
+    }
+    fetchCategory();
+  }, []);
+  console.log("category", categoryJSON)
+
+
+
  
  
   useEffect(() => {
     const fetchArticles = async () =>{
-      const response = await fetch('api/news/', {
+      const response = await fetch('api/news', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -137,7 +161,7 @@ export default function Homepage() {
           </Grid>
         </Box>
       </Container>
- 
+{/*  
       <Container maxWidth="md">
  
         <Divider sx={{ marginY: 3, marginX: 'auto', borderColor: 'primary.main', borderWidth: '2px', borderStyle: 'solid'}} />
@@ -151,7 +175,7 @@ export default function Homepage() {
           ))}
         </Grid>
       </Container>
- 
+
       <Container maxWidth="md">
  
         <Divider sx={{ marginY: 3, marginX: 'auto', borderColor: 'primary.main', borderWidth: '2px', borderStyle: 'solid' }} />
@@ -178,7 +202,43 @@ export default function Homepage() {
           ))}
         </Grid>
       </Container>
- 
+  */}
+
+
+
+
+          {categoryJSON.map((elem1) => { return(
+           
+            <Container maxWidth="md">
+            <Divider sx={{ marginY: 3, marginX: 'auto', borderColor: 'primary.main', borderWidth: '2px', borderStyle: 'solid' }} />
+            <Typography variant="h4" component="h4" sx={{ marginY: 1, marginX: 'auto' }}>{elem1.name}</Typography>
+            <Grid container spacing={3} >
+            {elem1.News.map((elem2) => { return(
+              <Grid item xs={12} sm={6} md={4} lg={3} key={elem2.id} onClick={() => sendProps(elem2.id)} style={{ cursor: 'pointer' }}>
+                <CardComp title={elem2.title} content={elem2.content} imageUrl={elem2.featuredImage} />
+              </Grid>)
+              }
+              )
+            }
+            </Grid>
+          </Container>)
+            })
+          }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       <Container maxWidth="md">
         <Divider sx={{ marginY: 3, marginX: 'auto', borderColor: 'primary.main', borderWidth: '2px', borderStyle: 'solid' }} />
         <Typography variant="h4" component="h4" sx={{ marginY: 1, marginX: 'auto' }}>Footer</Typography>
