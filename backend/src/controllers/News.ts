@@ -183,7 +183,7 @@ export const getRandomNews = async (
     const newsCount = await prisma.news.count();
 
     const randomIndices: number[] = [];
-    while (randomIndices.length < 5) {
+    while (randomIndices.length < 6) {
       const randomIndex = Math.floor(Math.random() * newsCount);
       if (!randomIndices.includes(randomIndex)) {
         randomIndices.push(randomIndex);
