@@ -24,8 +24,8 @@
       "post": {
         "description": "",
         "responses": {
-          "400": {
-            "description": "Bad Request"
+          "default": {
+            "description": ""
           }
         }
       }
@@ -96,7 +96,7 @@
         }
       }
     },
-    "/userupdate-password/{id}": {
+    "/user/update-password/{id}": {
       "put": {
         "description": "",
         "parameters": [
@@ -116,7 +116,7 @@
         }
       }
     },
-    "/userforgot-password/{id}": {
+    "/user/forgot-password/{id}": {
       "post": {
         "description": "",
         "parameters": [
@@ -136,7 +136,7 @@
         }
       }
     },
-    "/userget-user-news/{id}": {
+    "/user/get-user-news/{id}": {
       "get": {
         "description": "",
         "parameters": [
@@ -244,12 +244,22 @@
             "description": "OK"
           }
         }
-      },
-      "put": {
+      }
+    },
+    "/news/{status}/{categoryId}": {
+      "get": {
         "description": "",
         "parameters": [
           {
-            "name": "id",
+            "name": "status",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "categoryId",
             "in": "path",
             "required": true,
             "schema": {
@@ -260,54 +270,26 @@
         "responses": {
           "200": {
             "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          }
-        },
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "where": {
-                    "example": "any"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
           }
         }
       }
     },
-    "/news/{{where{id:Number(id)}});res.status(200).json({message:NewsDeletedSuccessfully});}catch(error){next(error);}};}": {
-      "delete": {
+    "/news/get-recommend-news": {
+      "get": {
         "description": "",
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/news/get-category-top-news": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -338,8 +320,11 @@
       "get": {
         "description": "",
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
@@ -356,8 +341,8 @@
       "post": {
         "description": "",
         "responses": {
-          "400": {
-            "description": "Bad Request"
+          "default": {
+            "description": ""
           }
         }
       }
