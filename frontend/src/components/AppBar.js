@@ -1,9 +1,9 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Router from "next/router"
- 
+import Router from "next/router";
+
 import Cookies from "js-cookie";
- 
+
 import {
   AppBar,
   Box,
@@ -19,88 +19,86 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import AdbIcon from "@mui/icons-material/Adb";
- 
-const settings = ["Profile", "Account","Logout"];
- 
+
+const settings = ["Profile", "Account", "Logout"];
+
 function ResponsiveAppBar() {
+  const [categories, setCategories] = useState([]);
+
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [isAuthenticated, setAuthenticated] = useState(false);
-  const [userName, setUser] = useState({})
- 
+  const [userName, setUser] = useState({});
+
   const pages = [];
- 
+
   const [category, setCategory] = useState([]);
- 
+
   useEffect(() => {
-    const fetchCategory = async () =>{
-      const response = await fetch('api/category/', {
-        method: 'GET',
-        headers: {'Content-Type': 'application/json',},
-      })
-      if(response.ok){
+    const fetchCategory = async () => {
+      const response = await fetch("api/category/", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+      if (response.ok) {
         const result = await response.json();
         console.log(result);
         setCategory(result);
-      }else{
+      } else {
         console.log(response);
-        throw new Error('Network response was not ok');
+        throw new Error("Network response was not ok");
       }
-    }
-    
+    };
+
     fetchCategory();
   }, []);
- 
-  console.log("category", category)
- 
+
+  console.log("category", category);
+
   category.map((elem) => {
     console.log("category elem", pages.push(elem?.name));
-  })
- 
- 
+  });
+
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
- 
+
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
- 
+
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
- 
+
   useEffect(() => {
     const user = Cookies.get("user");
-    if(user){
-      const userJson = JSON.parse(user)
-      setUser(userJson)
-      setAuthenticated(true)
-    }else{
+    if (user) {
+      const userJson = JSON.parse(user);
+      setUser(userJson);
+      setAuthenticated(true);
+    } else {
       setAuthenticated(false);
     }
   }, []);
- 
-  
+
   const handleLogout = async () => {
-    const response = await fetch('/api/auth/logout', {
-      method:'POST',
-      headers: {'Content-Type': 'application/json'},
-    })
-    if(response.ok){
+    const response = await fetch("/api/auth/logout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+    });
+    if (response.ok) {
       Cookies.remove("user");
       setAuthenticated(false);
       Router.push("/login");
-    }
-    else{
-      alert(`Error ${response.status}`)
+    } else {
+      alert(`Error ${response.status}`);
     }
   };
- 
- 
+
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -123,7 +121,7 @@ function ResponsiveAppBar() {
           >
             LOGO
           </Typography>
- 
+
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
@@ -154,11 +152,13 @@ function ResponsiveAppBar() {
               }}
             >
               {pages.map((page) => (
-              <Button
-                key={page}
-                href={`#${page.toLowerCase}`}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >{page}</Button>
+                <Button
+                  key={page}
+                  href={`#${page.toLowerCase}`}
+                  sx={{ my: 2, color: "white", display: "block" }}
+                >
+                  {page}
+                </Button>
               ))}
             </Menu>
           </Box>
@@ -182,23 +182,25 @@ function ResponsiveAppBar() {
             LOGO
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-          {pages.map((page) => (
+            {pages.map((page) => (
               <Button
                 key={page}
                 href={`#${page.toLowerCase}`}
                 sx={{ my: 2, color: "white", display: "block" }}
-              >{page}</Button>
-              ))}
+              >
+                {page}
+              </Button>
+            ))}
           </Box>
           {isAuthenticated ? (
             <Box sx={{ flexGrow: 0 }}>
               <Typography>{`Welcome ${userName?.name}`}</Typography>
-              <Box sx={{display:'flex', justifyContent:'center'}}>
-              <Tooltip title="Open settings" sx={{marginLeft:'10px'}}>
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp">{userName?.name.charAt(0)}</Avatar>
-                </IconButton>
-              </Tooltip>
+              <Box sx={{ display: "flex", justifyContent: "center" }}>
+                <Tooltip title="Open settings" sx={{ marginLeft: "10px" }}>
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <Avatar alt="Remy Sharp">{userName?.name.charAt(0)}</Avatar>
+                  </IconButton>
+                </Tooltip>
               </Box>
               <Menu
                 sx={{ mt: "45px" }}
@@ -217,7 +219,12 @@ function ResponsiveAppBar() {
                 onClose={handleCloseUserMenu}
               >
                 {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={setting === "Logout" ? handleLogout : handleCloseUserMenu}>
+                  <MenuItem
+                    key={setting}
+                    onClick={
+                      setting === "Logout" ? handleLogout : handleCloseUserMenu
+                    }
+                  >
                     <Typography textAlign="center">{setting}</Typography>
                   </MenuItem>
                 ))}
@@ -231,12 +238,14 @@ function ResponsiveAppBar() {
                   backgroundColor: "white",
                   color: "#19857b",
                   fontSize: "16px",
-                  width:"140%",
+                  width: "140%",
                   "&:hover": {
                     color: "white",
                   },
                 }}
-                onClick={() => {Router.push("/login")}}
+                onClick={() => {
+                  Router.push("/login");
+                }}
               >
                 LOG IN
               </Button>
