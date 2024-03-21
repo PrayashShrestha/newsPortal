@@ -104,22 +104,24 @@ export default function Homepage() {
       </Container>
 
       {category.map((elem1) => {
-        return (
-
-          <Container maxWidth="md">
-            <Divider sx={{ marginY: 3, marginX: 'auto', borderColor: 'primary.main', borderWidth: '2px', borderStyle: 'solid' }} />
-            <Typography variant="h4" component="h4" sx={{ marginY: 1, marginX: 'auto' }} id={`${elem1.name.toLowerCase}`}>{elem1.name}</Typography>
-            <Grid container spacing={3} >
-              {elem1.News.slice(0, 6).map((elem2) => {
-                return (
-                  <Grid item xs={12} sm={6} md={6} lg={4} key={elem2.id} onClick={() => sendProps(elem2.id)} style={{ cursor: 'pointer' }}>
-                    <CardComp title={elem2.title} content={elem2.content} imageUrl={elem2.featuredImage} />
-                  </Grid>);
-              }
-              )
-              }
-            </Grid>
-          </Container>);
+        
+        if(elem1.News.length > 0){
+          return (
+            <Container maxWidth="md">
+              <Divider sx={{ marginY: 3, marginX: 'auto', borderColor: 'primary.main', borderWidth: '2px', borderStyle: 'solid' }} />
+              <Typography variant="h4" component="h4" sx={{ marginY: 1, marginX: 'auto' }} id={`${elem1.name.toLowerCase}`}>{elem1.name}</Typography>
+              <Grid container spacing={3} >
+                {elem1.News.slice(0, 6).map((elem2) => {
+                  return (
+                    <Grid item xs={12} sm={6} md={6} lg={4} key={elem2.id} onClick={() => sendProps(elem2.id)} style={{ cursor: 'pointer' }}>
+                      <CardComp title={elem2.title} content={elem2.content} imageUrl={elem2.featuredImage} />
+                    </Grid>);
+                }
+                )
+                }
+              </Grid>
+            </Container>)
+        }
       })
       }
 

@@ -51,10 +51,12 @@ function ResponsiveAppBar() {
     fetchCategory();
   }, []);
  
-  console.log("category", category)
- 
   category.map((elem) => {
-    console.log("category elem", pages.push(elem?.name));
+    console.log("res: ")
+    console.log(elem)
+    if(elem){
+      pages.push(elem?.name)
+    }
   })
  
  
