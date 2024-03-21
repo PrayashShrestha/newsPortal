@@ -8,6 +8,7 @@ import {
   getCategoriesBasedNews,
   getRandomNews,
   getSingleNews,
+  updateNewsStatus
   // updateNews,
 } from "../controllers/News";
 
@@ -15,8 +16,10 @@ const newsRouter = express.Router();
 
 newsRouter.get("/", getAllNews);
 newsRouter.post("/", authenticate, createSingleNews);
-newsRouter.get("/category-based-news", getCategoriesBasedNews)
-newsRouter.get("/get-recommend-news", getRandomNews)
+newsRouter.put("/", authenticate, updateNewsStatus);
+newsRouter.get("/category-based-news", getCategoriesBasedNews);
+newsRouter.get("/get-recommend-news", getRandomNews);
+
 // newsRouter.put("/:id", authenticate, updateNews);
 // newsRouter.delete("/:id", authenticate, deleteNews);
 

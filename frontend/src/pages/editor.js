@@ -60,15 +60,17 @@ export default function editor() {
     { x: "Rejected", y: 1 },
   ];
 
-  const dateNow = new Date().toDateString();
   const articlerows = article.map((val) => {
     let chip;
-   if(val.status === "pending"){
-       chip = <Chip label="Pending" color="warning" variant="outlined" />
-    }
-    else{
-      chip = <Chip label="Posted" color="success" variant="outlined" />
-    }
+    if(val.status === "pending" || val.status === "Pending"){
+      chip = <Chip label="Pending" color="warning" variant="outlined" />
+   }
+   else if (val.status === "posted" || val.status === "Posted"){
+     chip = <Chip label="Posted" color="success" variant="outlined" />
+   }
+   else{
+    chip = <Chip label="Rejected" color="error" variant="outlined" />
+   }
 
     let data = {
       articleId: val.id,
@@ -90,7 +92,8 @@ export default function editor() {
     { id: "status", label: "Status", },
   ];
   function handleButtonClick(row) {
-    console.log("Button clicked for row:", row);
+    let id  = row.articleId
+    Router.push({pathname:'/details',query:{id}})
   }
 
   const tabsData = [
