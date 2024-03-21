@@ -50,10 +50,10 @@ const ForgotPassword = () => {
         <Box
           sx={{
             position: "absolute",
-            top: "43px",
-            left: "-500px",
+            top: "45px",
+            left: "-550px",
             height: "100%",
-            width: "80%",
+            width: "100%",
             overflow: "hidden",
             zIndex: 2,
           }}
