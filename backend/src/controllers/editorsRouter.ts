@@ -1,7 +1,8 @@
 import express, { Request, Response, NextFunction } from "express";
-import multer, { FileFilterCallback } from "multer";
+import multer from "multer";
 import path from "path";
 import { prisma } from "../config";
+import { UploadApiResponse, v2 as cloudinary } from "cloudinary";
 
 const editorsRouter = express.Router();
 const storage = multer.diskStorage({
@@ -22,10 +23,22 @@ editorsRouter.post(
     const cont = JSON.parse(req.body.content);
     const { title, content, status, categoryId } = cont;
     const file = req.file;
+    if (!file) {
+      return res.status(400).json({ message: "No file uploaded" });
+    }
+
+    let uploadedFile: UploadApiResponse;
+    try {
+      uploadedFile = await cloudinary.uploader.upload(file?.path, {
+        folder: "NewsPortal",
+        resource_type: "auto",
+      });
+    } catch (error) {
+      return res.status(400).json({ message: "Cloudinary error" });
+    }
+    const { secure_url } = uploadedFile;
     const cookieUser = JSON.parse(req.cookies.user);
     const authorId = cookieUser.userId;
-    // const dir = path.join(__dirname)
-    // `${dir.replace(/\\/g, '/')}/uploads/${file?.filename}`,
 
     try {
       const post = await prisma.news.create({
@@ -35,11 +48,10 @@ editorsRouter.post(
           status: "pending",
           authorId,
           categoryId,
-          featuredImage: `http://localhost:4000/uploads/${file?.filename}`,
+          featuredImage: secure_url,
         },
       });
       res.status(200).json(post);
-      console.log(res);
     } catch (error) {
       console.log(error);
     }

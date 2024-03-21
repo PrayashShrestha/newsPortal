@@ -86,14 +86,20 @@ export default function TextEditor() {
     <div>
       {" "}
       <div style={{ position: "absolute", top: -30, right: 300 }}>
-        <Box sx={{ minWidth: 120 }}>
+        <Box sx={{ minWidth: 150 }}>
           <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label" sx={{}}>
+            <InputLabel
+              id="demo-simple-select-label"
+              sx={{
+                marginTop: "-7px",
+              }}
+            >
               Category
             </InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
+              sx={{ paddingLeft: "10px" }}
               value={category}
               label="Category"
               onChange={handleChangeCategory}

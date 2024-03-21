@@ -30,3 +30,9 @@ root\* `docker run --name newsportal -e POSTGRES_PASSWORD=postgres -dp 5432:5432
 
 1. Go to the link below and get the ethereal id and password and copy paste to the .env file - https://ethereal.email/
 2. All of the messages are not sent directly to the gmail instead it is sent to the same Ethereal account. You can view the message in the inbox.
+
+## Please sign up as a cloudinary user and enter below credentials in the .env file that is provided to you after sign in
+
+CLOUDINARY_API_KEY = ""
+CLOUDINARY_API_SECRET = ""
+CLOUDINARY_API_CLOUD = ""
