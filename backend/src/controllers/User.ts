@@ -170,10 +170,11 @@ export const forgotUserPassword = async (
   next: NextFunction
 ) => {
   try {
-    const { id } = req.params;
+    const { email } = req.body;
     const userRetrived = await prisma.user.findUnique({
-      where: { id: Number(id) },
+      where: { email: email },
     });
+
     if (userRetrived) {
       const password = generator.generate({
         length: 10,
@@ -186,7 +187,7 @@ export const forgotUserPassword = async (
       );
 
       const user = await prisma.user.update({
-        where: { id: Number(id) },
+        where: { id: userRetrived.id },
         data: { password: hashedPassword },
       });
       if (user) {
@@ -255,7 +256,7 @@ export const getNewsByUsers = async (
         });
         return {
           userId: user.id,
-          name:user.name,
+          name: user.name,
           newsCount: newsCount,
         };
       })
