@@ -12,13 +12,13 @@ import DynamicTable from "../components/Table";
 import ResponsiveAppBar from "../components/AppBar"
 import PopoverForm from "../components/addEditor";
 
-
 export default function admin() {
 
   const[isAuthenticated, setAuthenticated] = useState(false)
   const [author, setAuthor] = useState([])
   const [updateFlag, setUpdateFlag] = useState(false);  
   const [article,setArticle] = useState([])
+
 
     useEffect(() => {
       const user = Cookies.get('user');
@@ -50,7 +50,8 @@ export default function admin() {
           const result = await response.json()
           setAuthor(result)
         }else{
-          throw new Error('Network response was not ok')
+          alert("Network response was not ok")
+          console.log(response)
         }
       }
       fetchEditors()
@@ -83,11 +84,14 @@ export default function admin() {
   
     const articlerows = article?.map((val) => {
       let chip;
-      if(val.status === "pending"){
+      if(val.status === "pending" || val.status === "Pending"){
         chip = <Chip label="Pending" color="warning" variant="outlined" />
      }
-     else{
+     else if (val.status === "posted" || val.status === "Posted"){
        chip = <Chip label="Posted" color="success" variant="outlined" />
+     }
+     else{
+      chip = <Chip label="Rejected" color="error" variant="outlined" />
      }
       let data = {
         articleId: val.id,
@@ -129,7 +133,9 @@ export default function admin() {
     ];
   
     const handleButtonClick = (row) => {
-      console.log("Button clicked for row:", row);
+      let id  = row.articleId
+      Router.push({pathname:'/details',query:{id}})
+
     }
 
     const handleAddition = () => {

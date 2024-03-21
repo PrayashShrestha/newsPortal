@@ -64,6 +64,25 @@ export const createSingleNews = async (
     next(error);
   }
 };
+
+export const updateNewsStatus = async(req: Request, res: Response, next: NextFunction) => {
+  try{
+    const {id, status} = req.body
+    const update = await prisma.news.update({
+      where: {
+          id: Number(id),
+      },
+      data: {
+          status: status,
+      },
+  });
+  res.status(200).json(update)
+  } catch(error){
+    next(error)
+  }
+}
+
+
 // export const updateNews = async (
 //   req: Request,
 //   res: Response,
