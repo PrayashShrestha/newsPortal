@@ -237,3 +237,32 @@ export const getNewsByUser = async (
     next(error);
   }
 };
+
+export const getNewsByUsers = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const users = await prisma.user.findMany();
+
+    const newsByUser = await Promise.all(
+      users.map(async (user) => {
+        const newsCount = await prisma.news.count({
+          where: {
+            authorId: user.id,
+          },
+        });
+        return {
+          userId: user.id,
+          name:user.name,
+          newsCount: newsCount,
+        };
+      })
+    );
+
+    res.status(200).json(newsByUser);
+  } catch (error) {
+    next(error);
+  }
+};
