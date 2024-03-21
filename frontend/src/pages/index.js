@@ -108,7 +108,7 @@ export default function Homepage() {
 
           <Container maxWidth="md">
             <Divider sx={{ marginY: 3, marginX: 'auto', borderColor: 'primary.main', borderWidth: '2px', borderStyle: 'solid' }} />
-            <Typography variant="h4" component="h4" sx={{ marginY: 1, marginX: 'auto' }}>{elem1.name}</Typography>
+            <Typography variant="h4" component="h4" sx={{ marginY: 1, marginX: 'auto' }} id={`${elem1.name.toLowerCase}`}>{elem1.name}</Typography>
             <Grid container spacing={3} >
               {elem1.News.slice(0, 6).map((elem2) => {
                 return (

@@ -1,9 +1,9 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Router from "next/router"
-
+ 
 import Cookies from "js-cookie";
-
+ 
 import {
   AppBar,
   Box,
@@ -19,42 +19,71 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import AdbIcon from "@mui/icons-material/Adb";
-
-const pages = ["Products", "Pricing", "Blog"];
+ 
 const settings = ["Profile", "Account","Logout"];
-
+ 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [isAuthenticated, setAuthenticated] = useState(false);
   const [userName, setUser] = useState({})
-
+ 
+  const pages = [];
+ 
+  const [category, setCategory] = useState([]);
+ 
+  useEffect(() => {
+    const fetchCategory = async () =>{
+      const response = await fetch('api/category/', {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json',},
+      })
+      if(response.ok){
+        const result = await response.json();
+        console.log(result);
+        setCategory(result);
+      }else{
+        console.log(response);
+        throw new Error('Network response was not ok');
+      }
+    }
+    
+    fetchCategory();
+  }, []);
+ 
+  console.log("category", category)
+ 
+  category.map((elem) => {
+    console.log("category elem", pages.push(elem?.name));
+  })
+ 
+ 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
-
+ 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
-
+ 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
+ 
   useEffect(() => {
     const user = Cookies.get("user");
     if(user){
       const userJson = JSON.parse(user)
       setUser(userJson)
-      setAuthenticated(true) 
+      setAuthenticated(true)
     }else{
       setAuthenticated(false);
     }
   }, []);
-
+ 
   
   const handleLogout = async () => {
     const response = await fetch('/api/auth/logout', {
@@ -70,8 +99,8 @@ function ResponsiveAppBar() {
       alert(`Error ${response.status}`)
     }
   };
-
-
+ 
+ 
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -94,7 +123,7 @@ function ResponsiveAppBar() {
           >
             LOGO
           </Typography>
-
+ 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
@@ -125,9 +154,11 @@ function ResponsiveAppBar() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
+              <Button
+                key={page}
+                href={`#${page.toLowerCase}`}
+                sx={{ my: 2, color: "white", display: "block" }}
+              >{page}</Button>
               ))}
             </Menu>
           </Box>
@@ -151,15 +182,13 @@ function ResponsiveAppBar() {
             LOGO
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
+          {pages.map((page) => (
               <Button
                 key={page}
-                onClick={handleCloseNavMenu}
+                href={`#${page.toLowerCase}`}
                 sx={{ my: 2, color: "white", display: "block" }}
-              >
-                {page}
-              </Button>
-            ))}
+              >{page}</Button>
+              ))}
           </Box>
           {isAuthenticated ? (
             <Box sx={{ flexGrow: 0 }}>
