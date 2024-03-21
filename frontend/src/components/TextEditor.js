@@ -86,7 +86,7 @@ export default function TextEditor() {
     <div>
       {" "}
       <div style={{ position: "absolute", top: -30, right: 300 }}>
-        <Box sx={{ minWidth: 150, itemAlign: "center" }}>
+        <Box sx={{ minWidth: 150 }}>
           <FormControl fullWidth>
             <InputLabel
               id="demo-simple-select-label"
